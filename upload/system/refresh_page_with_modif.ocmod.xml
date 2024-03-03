@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <modification>
     <code>refresh-page-with-modif</code>
-    <name>Оновити сторінку з модифікаторами</name>
+    <name>Оновити сторінку з модифікаторами (CTRL + B)</name>
     <version>1.0</version>
     <author>kJlukOo</author>
     <link>https://t.me/incell3</link>
@@ -14,7 +14,7 @@
             <add position="before"> 
                 <![CDATA[
                     $data['refresh_modif_url'] = false;
-                    $data['refresh_modif_keycode'] = "KeyR";
+                    $data['refresh_modif_keycode'] = "KeyB";
 
                     if(floatval(VERSION) >= 3)
                     {
@@ -45,7 +45,7 @@
                     <script type="text/javascript">
                         $(document).on('keypress',function(e) 
                         {
-                            if(e.originalEvent.code == "{{ refresh_modif_keycode }}") 
+                            if(e.ctrlKey && e.originalEvent.code == "{{ refresh_modif_keycode }}") 
                             {
                                 {% if refresh_modif_url %}
                                     $.get("{{ refresh_modif_url }}", function( data ) {
@@ -72,7 +72,7 @@
                     <script type="text/javascript">
                         $(document).on('keypress',function(e) 
                         {
-                            if(e.originalEvent.code == "<?php echo $refresh_modif_keycode;?>") 
+                            if(e.ctrlKey && e.originalEvent.code == "<?php echo $refresh_modif_keycode;?>") 
                             {
                                 <?php if($refresh_modif_url) { ?>
                                     $.get("<?php echo $refresh_modif_url;?>", function( data ) {
