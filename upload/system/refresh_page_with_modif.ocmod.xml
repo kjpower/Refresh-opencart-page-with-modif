@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <modification>
     <code>refresh-page-with-modif</code>
-    <name>Обновить страницу с модификаторами</name>
+    <name>Оновити сторінку з модифікаторами</name>
     <version>1.0</version>
     <author>kJlukOo</author>
     <link>https://t.me/incell3</link>
@@ -11,22 +11,23 @@
             <search>
                 <![CDATA[$data['scripts'] = $this->document->getScripts('footer');]]>
             </search>
-            <add position="before">
+            <add position="before"> 
                 <![CDATA[
-                    $data['url_reload_modif'] = false;
+                    $data['refresh_modif_url'] = false;
+                    $data['refresh_modif_keycode'] = "KeyR";
 
                     if(floatval(VERSION) >= 3)
                     {
                         if(!empty($this->session->data['user_token']))
                         {
-                            $data['url_reload_modif'] = HTTPS_SERVER . "admin/index.php?route=marketplace/modification/refresh&user_token=".$this->session->data['user_token'];
+                            $data['refresh_modif_url'] = HTTPS_SERVER . "admin/index.php?route=marketplace/modification/refresh&user_token=".$this->session->data['user_token'];
                         }
                     }
                     else 
                     {
                         if(!empty($this->session->data['token']))
                         {
-                            $data['url_reload_modif'] = HTTPS_SERVER . "admin/index.php?route=extension/modification/refresh&token=".$this->session->data['token'];
+                            $data['refresh_modif_url'] = HTTPS_SERVER . "admin/index.php?route=extension/modification/refresh&token=".$this->session->data['token'];
                         }
                     }
                 ]]>
@@ -44,14 +45,14 @@
                     <script type="text/javascript">
                         $(document).on('keypress',function(e) 
                         {
-                            if(e.which == 114) 
+                            if(e.originalEvent.code == "{{ refresh_modif_keycode }}") 
                             {
-                                {% if url_reload_modif %}
-                                    $.get("{{ url_reload_modif }}", function( data ) {
+                                {% if refresh_modif_url %}
+                                    $.get("{{ refresh_modif_url }}", function( data ) {
                                         location.reload();
                                     });
                                 {% else %}
-                                    alert("Необходимо авторзиация в админке");
+                                    alert("Необхідна авторизація в адмінці");
                                 {% endif %}
                             }
                         });
@@ -71,14 +72,14 @@
                     <script type="text/javascript">
                         $(document).on('keypress',function(e) 
                         {
-                            if(e.which == 114) 
+                            if(e.originalEvent.code == "<?php echo $refresh_modif_keycode;?>") 
                             {
-                                <?php if($url_reload_modif) { ?>
-                                    $.get("<?php echo $url_reload_modif;?>", function( data ) {
+                                <?php if($refresh_modif_url) { ?>
+                                    $.get("<?php echo $refresh_modif_url;?>", function( data ) {
                                         location.reload();
                                     });
                                 <?php } else { ?>
-                                    alert("Необходимо авторзиация в админке");
+                                    alert("Необхідна авторизація в адмінці");
                                 <?php } ?>
                             }
                         });
