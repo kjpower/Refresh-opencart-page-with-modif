@@ -35,7 +35,7 @@
         </operation>
     </file>
 
-    <file path="catalog/view/theme/default/template/common/footer.twig">
+    <file path="catalog/view/theme/*/template/common/footer.twig">
         <operation error="skip">
             <search>
                 <![CDATA[</body>]]>
@@ -62,7 +62,7 @@
         </operation>
     </file>
 
-    <file path="catalog/view/theme/default/template/common/footer.tpl">
+    <file path="catalog/view/theme/*/template/common/footer.tpl">
         <operation error="skip">
             <search>
                 <![CDATA[</body>]]>
