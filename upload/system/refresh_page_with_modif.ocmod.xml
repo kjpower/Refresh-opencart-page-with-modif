@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <code>refresh-page-with-modif</code>
+    <name>Обновить страницу с модификаторами</name>
+    <version>1.0</version>
+    <author>kJlukOo</author>
+    <link>https://t.me/incell3</link>
+
+    <file path="catalog/controller/common/footer.php">
+        <operation error="skip">
+            <search>
+                <![CDATA[$data['scripts'] = $this->document->getScripts('footer');]]>
+            </search>
+            <add position="before">
+                <![CDATA[
+                    $data['url_reload_modif'] = false;
+
+                    if(floatval(VERSION) >= 3)
+                    {
+                        if(!empty($this->session->data['user_token']))
+                        {
+                            $data['url_reload_modif'] = HTTPS_SERVER . "admin/index.php?route=marketplace/modification/refresh&user_token=".$this->session->data['user_token'];
+                        }
+                    }
+                    else 
+                    {
+                        if(!empty($this->session->data['token']))
+                        {
+                            $data['url_reload_modif'] = HTTPS_SERVER . "admin/index.php?route=extension/modification/refresh&token=".$this->session->data['token'];
+                        }
+                    }
+                ]]>
+            </add>
+        </operation>
+    </file>
+
+    <file path="catalog/view/theme/default/template/common/footer.twig">
+        <operation error="skip">
+            <search>
+                <![CDATA[</body>]]>
+            </search>
+            <add position="before">
+                <![CDATA[
+                    <script type="text/javascript">
+                        $(document).on('keypress',function(e) 
+                        {
+                            if(e.which == 114) 
+                            {
+                                {% if url_reload_modif %}
+                                    $.get("{{ url_reload_modif }}", function( data ) {
+                                        location.reload();
+                                    });
+                                {% else %}
+                                    alert("Необходимо авторзиация в админке");
+                                {% endif %}
+                            }
+                        });
+                    </script>
+                ]]>
+            </add>
+        </operation>
+    </file>
+
+    <file path="catalog/view/theme/default/template/common/footer.tpl">
+        <operation error="skip">
+            <search>
+                <![CDATA[</body>]]>
+            </search>
+            <add position="before">
+                <![CDATA[
+                    <script type="text/javascript">
+                        $(document).on('keypress',function(e) 
+                        {
+                            if(e.which == 114) 
+                            {
+                                <?php if($url_reload_modif) { ?>
+                                    $.get("<?php echo $url_reload_modif;?>", function( data ) {
+                                        location.reload();
+                                    });
+                                <?php } else { ?>
+                                    alert("Необходимо авторзиация в админке");
+                                <?php } ?>
+                            }
+                        });
+                    </script>
+                ]]>
+            </add>
+        </operation>
+    </file>
+</modification>
