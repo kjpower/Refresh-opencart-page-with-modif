@@ -42,21 +42,19 @@
             </search>
             <add position="before">
                 <![CDATA[
-                    <script type="text/javascript">
-                        $(document).on('keypress',function(e) 
-                        {
-                            if(e.ctrlKey && e.originalEvent.code == "{{ refresh_modif_keycode }}") 
+                    {% if refresh_modif_url %}
+                        <script type="text/javascript">
+                            $(document).on('keypress',function(e) 
                             {
-                                {% if refresh_modif_url %}
+                                if(e.ctrlKey && e.originalEvent.code == "{{ refresh_modif_keycode }}") 
+                                {
                                     $.get("{{ refresh_modif_url }}", function( data ) {
                                         location.reload();
                                     });
-                                {% else %}
-                                    alert("Необхідна авторизація в адмінці");
-                                {% endif %}
-                            }
-                        });
-                    </script>
+                                }
+                            });
+                        </script>
+                    {% endif %}
                 ]]>
             </add>
         </operation>
@@ -69,21 +67,19 @@
             </search>
             <add position="before">
                 <![CDATA[
-                    <script type="text/javascript">
-                        $(document).on('keypress',function(e) 
-                        {
-                            if(e.ctrlKey && e.originalEvent.code == "<?php echo $refresh_modif_keycode;?>") 
+                    <?php if($refresh_modif_url) { ?>
+                        <script type="text/javascript">
+                            $(document).on('keypress',function(e) 
                             {
-                                <?php if($refresh_modif_url) { ?>
+                                if(e.ctrlKey && e.originalEvent.code == "<?php echo $refresh_modif_keycode;?>") 
+                                {
                                     $.get("<?php echo $refresh_modif_url;?>", function( data ) {
                                         location.reload();
                                     });
-                                <?php } else { ?>
-                                    alert("Необхідна авторизація в адмінці");
-                                <?php } ?>
-                            }
-                        });
-                    </script>
+                                }
+                            });
+                        </script>
+                    <?php } ?>
                 ]]>
             </add>
         </operation>
